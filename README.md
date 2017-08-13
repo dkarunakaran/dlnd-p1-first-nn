@@ -4,8 +4,13 @@ Deep learning nano degreee first project
 
 ## Instructions
 1. Clone the repo
-2. cd dlnd-p1-first-nn
+
+2. Change the directory 
+```
+cd dlnd-p1-first-nn
+```
 3. Download anaconda or miniconda based on the instructions in the Anaconda lesson.
+
 4. Create a new conda environment:
     ```
     conda create --name dlnd python=3
@@ -19,10 +24,13 @@ Windows: >> activate dlnd
 ```
 conda install numpy matplotlib pandas jupyter notebook
 ```
+
 7.Run the following to open up the notebook server:
 ```
 jupyter notebook
 ```
 8. In your browser, open dlnd-your-first-neural-network.ipynb
+
 9. Follow the instructions in the notebook will lead you through the project.
+
 10 Ensure you've passed the unit tests in the notebook before you submit the project!
