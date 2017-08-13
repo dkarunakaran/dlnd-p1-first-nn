@@ -7,27 +7,27 @@ Deep learning nano degreee first project
 
 2. Change the directory 
 ```
-cd dlnd-p1-first-nn
+    cd dlnd-p1-first-nn
 ```
 3. Download anaconda or miniconda based on the instructions in the Anaconda lesson.
 
 4. Create a new conda environment:
-    ```
+```
     conda create --name dlnd python=3
-    ```
+```
 5. Enter your new environment:
 ```
-Mac/Linux: >> source activate dlnd
-Windows: >> activate dlnd
+    Mac/Linux: >> source activate dlnd
+    Windows: >> activate dlnd
 ```
 6. Ensure you have numpy, matplotlib, pandas, and jupyter notebook installed by doing the following:
 ```
-conda install numpy matplotlib pandas jupyter notebook
+    conda install numpy matplotlib pandas jupyter notebook
 ```
 
 7. Run the following to open up the notebook server:
 ```
-jupyter notebook
+    jupyter notebook
 ```
 8. In your browser, open dlnd-your-first-neural-network.ipynb
 
