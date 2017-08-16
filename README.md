@@ -32,5 +32,3 @@ Deep learning nano degreee first project
 8. In your browser, open dlnd-your-first-neural-network.ipynb
 
 9. Follow the instructions in the notebook will lead you through the project.
-
-10. Ensure you've passed the unit tests in the notebook before you submit the project!
