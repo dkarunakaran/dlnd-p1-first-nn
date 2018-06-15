@@ -1,34 +1,27 @@
 ```
-def optimize(nn_last_layer, correct_label, learning_rate, num_classes):
-    """
-    Build the TensorFLow loss and optimizer operations.
-    :param nn_last_layer: TF Tensor of the last layer in the neural network
-    :param correct_label: TF Placeholder for the correct label image
-    :param learning_rate: TF Placeholder for the learning rate
-    :param num_classes: Number of classes to classify
-    :return: Tuple of (logits, train_op, cross_entropy_loss)
-    """
-    # TODO: Implement function
-
-    # Reshape the label same as logits 
-    label_reshaped = tf.reshape(correct_label, (-1,num_classes))
-
-    # Converting the 4D tensor to 2D tensor. logits is now a 2D tensor where each row represents a pixel and each column a class
-    logits = tf.reshape(nn_last_layer, (-1, num_classes))
-
-    # Name logits Tensor, so that is can be loaded from disk after training
-    logits = tf.identity(logits, name='logits')
-
-    # Loss and Optimizer
-    cross_entropy_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=label_reshaped))
-
-    reg_losses = tf.get_collection(tf.GraphKeys.REGULARIZATION_LOSSES)
-    reg_constant = 1e-3
-    loss = cross_entropy_loss + reg_constant * sum(reg_losses)
-
-    train_op = tf.train.AdamOptimizer(learning_rate= learning_rate).minimize(loss)    
+# Initializing the variables
+    sess.run(tf.global_variables_initializer())
     
-    return logits, train_op, loss
+    # Training cycle
+    for epoch in range(epochs):
+        print("Epoch {}".format(epoch + 1))
+        training_loss = 0
+        training_samples_length = 0
+        for image, label in get_batches_fn(batch_size):
+            training_samples_length += len(image)
+            _, loss = sess.run([train_op, cross_entropy_loss], feed_dict={
+                input_image: image,
+                correct_label: label,
+                keep_prob: 0.5,
+                learning_rate: 0.0001
+            })
+            training_loss += loss
+            print(loss)
+        
+        # Total training loss
+        training_loss /= training_samples_length
+        print("********************Total loss***********************")
+        print(training_loss)
 ```
 
 # dlnd-p1-first-nn
