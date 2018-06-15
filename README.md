@@ -1,62 +1,34 @@
 ```
-def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
+def optimize(nn_last_layer, correct_label, learning_rate, num_classes):
     """
-    Create the layers for a fully convolutional network.  Build skip-layers using the vgg layers.
-    :param vgg_layer3_out: TF Tensor for VGG Layer 3 output
-    :param vgg_layer4_out: TF Tensor for VGG Layer 4 output
-    :param vgg_layer7_out: TF Tensor for VGG Layer 7 output
+    Build the TensorFLow loss and optimizer operations.
+    :param nn_last_layer: TF Tensor of the last layer in the neural network
+    :param correct_label: TF Placeholder for the correct label image
+    :param learning_rate: TF Placeholder for the learning rate
     :param num_classes: Number of classes to classify
-    :return: The Tensor for the last layer of output
+    :return: Tuple of (logits, train_op, cross_entropy_loss)
     """
+    # TODO: Implement function
+
+    # Reshape the label same as logits 
+    label_reshaped = tf.reshape(correct_label, (-1,num_classes))
+
+    # Converting the 4D tensor to 2D tensor. logits is now a 2D tensor where each row represents a pixel and each column a class
+    logits = tf.reshape(nn_last_layer, (-1, num_classes))
+
+    # Name logits Tensor, so that is can be loaded from disk after training
+    logits = tf.identity(logits, name='logits')
+
+    # Loss and Optimizer
+    cross_entropy_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=label_reshaped))
+
+    reg_losses = tf.get_collection(tf.GraphKeys.REGULARIZATION_LOSSES)
+    reg_constant = 1e-3
+    loss = cross_entropy_loss + reg_constant * sum(reg_losses)
+
+    train_op = tf.train.AdamOptimizer(learning_rate= learning_rate).minimize(loss)    
     
-    # 1X1 connvolution of the layer 7
-    conv_1x1_7th_layer = tf.layers.conv2d(vgg_layer7_out,num_classes, 1,padding = 'same',
-                                     kernel_regularizer= tf.contrib.layers.l2_regularizer(1e-3),
-                                     name='conv_1x1_7th_layer')
-    # Upsampling x 4
-    upsampling1 = tf.layers.conv2d_transpose(conv_1x1_7th_layer,
-                                                num_classes,
-                                                4,
-                                                strides= (2, 2),
-                                                padding= 'same',
-                                                kernel_regularizer= tf.contrib.layers.l2_regularizer(1e-3),
-                                                name='upsampling1')
-    # 1X1 convolution of the layer 4
-    conv_1x1_4th_layer = tf.layers.conv2d(vgg_layer4_out,
-                                     num_classes,
-                                     1,
-                                     padding = 'same',
-                                     kernel_regularizer= tf.contrib.layers.l2_regularizer(1e-3),
-                                     name='conv_1x1_4th_layer')
-    skip1 = tf.add(conv_1x1_4th_layer, upsampling1, name="skip1")
-
-    # Upsampling x 4
-    upsampling2 = tf.layers.conv2d_transpose(skip1,
-                                    num_classes,
-                                    4,
-                                    strides= (2, 2),
-                                    padding= 'same',
-                                    kernel_regularizer= tf.contrib.layers.l2_regularizer(1e-3),
-                                    name='upsampling2')
-
-    # 1X1 convolution of the layer 3
-    conv_1x1_3th_layer = tf.layers.conv2d(vgg_layer3_out,
-                                     num_classes,
-                                     1,
-                                     padding = 'same',
-                                     kernel_regularizer= tf.contrib.layers.l2_regularizer(1e-3),
-                                     name='conv_1x1_3th_layer')
-    skip2 = tf.add(conv_1x1_3th_layer, upsampling2, name="skip2")
-
-    # Upsampling x 8.
-    upsampling3 = tf.layers.conv2d_transpose(skip2, num_classes, 16,
-                                                  strides= (8, 8),
-                                                  padding= 'same',
-                                                  kernel_regularizer= tf.contrib.layers.l2_regularizer(1e-3),
-                                                  name='upsampling3')
-
-
-    return upsampling3
+    return logits, train_op, loss
 ```
 
 # dlnd-p1-first-nn
