@@ -1,28 +1,3 @@
-```
-# Initializing the variables
-    sess.run(tf.global_variables_initializer())
-    
-    # Training cycle
-    for epoch in range(epochs):
-        print("Epoch {}".format(epoch + 1))
-        training_loss = 0
-        training_samples_length = 0
-        for image, label in get_batches_fn(batch_size):
-            training_samples_length += len(image)
-            _, loss = sess.run([train_op, cross_entropy_loss], feed_dict={
-                input_image: image,
-                correct_label: label,
-                keep_prob: 0.5,
-                learning_rate: 0.0001
-            })
-            training_loss += loss
-            print(loss)
-        
-        # Total training loss
-        training_loss /= training_samples_length
-        print("********************Total loss***********************")
-        print(training_loss)
-```
 
 # dlnd-p1-first-nn
 Deep learning nano degreee first project
