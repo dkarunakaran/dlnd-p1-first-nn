@@ -1,3 +1,7 @@
+```
+input_layer, keep_prob_tensor, layer3, layer4, layer7 = load_vgg(sess, vgg_path)
+```
+
 # dlnd-p1-first-nn
 Deep learning nano degreee first project
 
